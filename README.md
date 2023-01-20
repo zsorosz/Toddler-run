@@ -15,7 +15,7 @@ In this game your baby is crawling towards random objects in the flat. Some of t
 - left arrow key removes the baby-safe object, right arrow key deletes the forbidden object
 - every correct keypress increases the score by 1
 - the speed of crawling increases when a certain score is reached
-- when the baby reaches a forbidden object, the game is over
+- when the baby reaches a forbidden object, or the wrong key was pressed, the game is over
 
 
 ## Backlog
