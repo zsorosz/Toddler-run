@@ -14,3 +14,5 @@ Every correct keypress will increase the score by 1.
 Game over:
 
 When the baby reaches a forbidden object, he will break it.
+
+![Toddler run](https://user-images.githubusercontent.com/51414584/213741801-d71bedac-1406-435a-bc58-9d465278a2cf.jpg)
