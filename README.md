@@ -2,10 +2,9 @@
 
 [Click here to see deployed game](http://github.com)
 
-
 ## Description
-In this game your baby is crawling towards random objects in the flat. Some of these objects are safe to play with, but some of them he would destroy. Make sure, that he gets only the safe items, but hurry up, because he is crawling faster and faster.
 
+In this game your baby is crawling towards random objects in the flat. Some of these objects are safe to play with, but some of them he would destroy. Make sure, that he gets only the safe items, but hurry up, because he is crawling faster and faster.
 
 ## MVP
 
@@ -17,22 +16,35 @@ In this game your baby is crawling towards random objects in the flat. Some of t
 - the speed of crawling increases when a certain score is reached
 - when the baby reaches a forbidden object, or the wrong key was pressed, the game is over
 
-
 ## Backlog
-_List of features you might implement after the MVP_
 
+- add sound effects
 
 ## Data structure
-_List of classes and methods_
 
+index.js:
+startGame()
+animate()
+...
 
 ## States y States Transitions
-_List of states (views) of your game_
 
+- Intro screen
+- Game screen
+- Game Over screen
 
 ## Task
-_List of tasks in order of priority_
 
+- create Game Intro
+- add function to start the game
+- set up background image and character
+- animate background
+- create random objects
+- animate objects
+- add event listeners to keypress
+- implement score count
+- increase animation speed
+- create game over state
 
 ## Links
 
