@@ -16,11 +16,38 @@ const babyImg = new Image();
 babyImg.src = "../images/baby.png";
 let babyY = 450;
 
+let itemX = 400;
+let randomItem;
+const createRandomItem = () => {
+  randomItem = items[Math.floor(Math.random() * 11)];
+};
+let randomItems = [];
+
+class Item {
+  constructor(img, type, xPos) {
+    this.img = img;
+    this.type = type;
+    this.xPos = xPos;
+  }
+
+  draw() {
+    let itemImg = new Image();
+    itemImg.src = this.img;
+    this.xPos -= 2;
+    ctx.drawImage(itemImg, this.xPos, 400, 400, 400);
+  }
+}
+
 const animate = () => {
   /////////Background animation//////////
   ctx.drawImage(bgImg1, bg1X, 0, canvas.width, canvas.height);
   ctx.drawImage(bgImg2, bg2X, 0, canvas.width, canvas.height);
   ctx.drawImage(babyImg, 100, babyY, 400, 400);
+
+  randomItems.forEach((item) => {
+    item.draw(item);
+  });
+  randomItems = randomItems.filter((item) => item.xPos > 0);
 
   bg1X -= 2;
   bg2X -= 2;
@@ -30,6 +57,11 @@ const animate = () => {
   }
   if (bg2X < -canvas.width) {
     bg2X = canvas.width;
+  }
+
+  if (animateId % 200 === 0) {
+    createRandomItem();
+    randomItems.push(new Item(randomItem.img, randomItem.type, canvas.width));
   }
 
   if (!gameOver) {
@@ -46,9 +78,9 @@ const startGame = () => {
 };
 
 window.onload = () => {
-  document.getElementById("game-board").style.display = "none";
-  document.getElementById("start-button").onclick = () => {
-    startGame();
-  };
-  //   startGame();
+  //   document.getElementById("game-board").style.display = "none";
+  //   document.getElementById("start-button").onclick = () => {
+  //     startGame();
+  //   };
+  startGame();
 };
