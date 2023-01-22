@@ -12,10 +12,15 @@ bgImg2.src = "../images/room.png";
 let bg1X = 0;
 let bg2X = canvas.width;
 
+const babyImg = new Image();
+babyImg.src = "../images/baby.png";
+let babyY = 450;
+
 const animate = () => {
   /////////Background animation//////////
   ctx.drawImage(bgImg1, bg1X, 0, canvas.width, canvas.height);
   ctx.drawImage(bgImg2, bg2X, 0, canvas.width, canvas.height);
+  ctx.drawImage(babyImg, 100, babyY, 400, 400);
 
   bg1X -= 2;
   bg2X -= 2;
@@ -35,12 +40,15 @@ const animate = () => {
 };
 
 const startGame = () => {
+  document.querySelector(".game-intro").style.display = "none";
+  document.getElementById("game-board").style.display = "flex";
   animate();
 };
 
 window.onload = () => {
-  // document.getElementById("start-button").onclick = () => {
+  document.getElementById("game-board").style.display = "none";
+  document.getElementById("start-button").onclick = () => {
+    startGame();
+  };
   //   startGame();
-  // };
-  startGame();
 };

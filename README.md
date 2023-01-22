@@ -19,6 +19,7 @@ In this game your baby is crawling towards random objects in the flat. Some of t
 ## Backlog
 
 - add sound effects
+- make the sizes responsive
 
 ## Data structure
 
