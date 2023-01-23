@@ -19,6 +19,7 @@ let babyY = 450;
 
 let itemX = 400;
 let randomItems = [];
+let speed = 4;
 
 class Item {
   constructor(img, type, xPos) {
@@ -30,7 +31,7 @@ class Item {
   draw() {
     let itemImg = new Image();
     itemImg.src = this.img;
-    this.xPos -= 3;
+    this.xPos -= speed;
     ctx.drawImage(itemImg, this.xPos, 400, 500, 500);
   }
 }
@@ -43,6 +44,14 @@ const animate = () => {
   ctx.font = "48px serif";
   ctx.fillText(`Score: ${score}`, 10, 48);
 
+  if (score <= 5) {
+    speed = 4;
+  } else if (score > 5 && score <= 10) {
+    speed = 7;
+  } else if (score > 10 && score <= 15) {
+    speed = 12;
+  }
+
   randomItems.forEach((item) => {
     item.draw(item);
     if (item.xPos < 200 && item.type === "baby") {
@@ -52,8 +61,8 @@ const animate = () => {
     }
   });
 
-  bg1X -= 3;
-  bg2X -= 3;
+  bg1X -= speed;
+  bg2X -= speed;
 
   if (bg1X < -canvas.width) {
     bg1X = canvas.width;
@@ -62,8 +71,8 @@ const animate = () => {
     bg2X = canvas.width;
   }
 
-  if (animateId % 100 === 0) {
-    let randomItem = items[Math.floor(Math.random() * 11)];
+  if (animateId % 50 === 0) {
+    let randomItem = items[Math.floor(Math.random() * items.length)];
     console.log(randomItem);
     randomItems.push(new Item(randomItem.img, randomItem.type, canvas.width));
   }
