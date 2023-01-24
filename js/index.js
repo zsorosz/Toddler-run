@@ -26,6 +26,7 @@ smashImg.src = "../images/smash.png";
 let itemX = 400;
 let randomItems = [];
 let speed = 4;
+let frequency = 100;
 
 class Item {
   constructor(img, type, xPos) {
@@ -61,10 +62,13 @@ const animate = () => {
 
   if (score <= 5) {
     speed = 4;
+    frequency = 80;
   } else if (score > 5 && score <= 10) {
-    speed = 6;
+    speed = 5;
+    frequency = 60;
   } else if (score > 10 && score <= 15) {
-    speed = 10;
+    speed = 6;
+    frequency = 40;
   }
 
   randomItems.forEach((item) => {
@@ -86,7 +90,7 @@ const animate = () => {
     bg2X = canvas.width;
   }
 
-  if (animateId % 50 === 0) {
+  if (animateId % frequency === 0) {
     let randomItem = items[Math.floor(Math.random() * items.length)];
     console.log(randomItem);
     randomItems.push(new Item(randomItem.img, randomItem.type, canvas.width));
@@ -147,7 +151,7 @@ document.addEventListener("keydown", (event) => {
     randomItems[0].img = "../images/checkmark.png";
     setTimeout(() => {
       randomItems.shift();
-    }, 500);
+    }, 200);
     score++;
   }
 });
