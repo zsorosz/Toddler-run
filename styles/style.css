@@ -65,3 +65,12 @@ button:hover{
     height: 7rem;
     width: 20rem;
 }
+#counter {
+    position: relative;
+    top: 20vh;
+    right: 50vw;
+    font-size: 20rem;
+    margin-top: 0;
+    font-family: 'Luckiest Guy', cursive;
+    color: #3b020c;
+}

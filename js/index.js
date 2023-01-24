@@ -107,6 +107,16 @@ const startGame = () => {
   document.querySelector(".game-intro").style.display = "none";
   document.getElementById("game-board").style.display = "flex";
   document.getElementById("restart-button").style.display = "none";
+  const counter = document.getElementById("counter");
+  let count = 3;
+  const interval = setInterval(() => {
+    counter.innerText = count;
+    count--;
+    if (count < 0) {
+      counter.innerText = "";
+      clearInterval(interval);
+    }
+  }, 1000);
   animate();
 };
 
