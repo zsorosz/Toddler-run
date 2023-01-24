@@ -25,7 +25,7 @@ smashImg.src = "../images/smash.png";
 
 let itemX = 400;
 let randomItems = [];
-let speed = 3;
+let speed = 4;
 
 class Item {
   constructor(img, type, xPos) {
@@ -55,13 +55,14 @@ const animate = () => {
     ctx.drawImage(smashImg, 600, -200, 800, 800);
   };
 
-  ctx.font = "48px serif";
-  ctx.fillText(`Score: ${score}`, 10, 48);
+  ctx.font = "48px Luckiest Guy";
+  ctx.fillStyle = "rgb(255, 0, 0)";
+  ctx.fillText(`Score: ${score}`, 40, 70);
 
   if (score <= 5) {
-    speed = 3;
+    speed = 4;
   } else if (score > 5 && score <= 10) {
-    speed = 5;
+    speed = 6;
   } else if (score > 10 && score <= 15) {
     speed = 10;
   }
@@ -85,7 +86,7 @@ const animate = () => {
     bg2X = canvas.width;
   }
 
-  if (animateId % 100 === 0) {
+  if (animateId % 50 === 0) {
     let randomItem = items[Math.floor(Math.random() * items.length)];
     console.log(randomItem);
     randomItems.push(new Item(randomItem.img, randomItem.type, canvas.width));
@@ -97,6 +98,7 @@ const animate = () => {
   } else {
     drawHulk();
     drawSmash();
+    document.getElementById("restart-button").style.display = "block";
     cancelAnimationFrame(animateId);
   }
 };
@@ -104,6 +106,7 @@ const animate = () => {
 const startGame = () => {
   document.querySelector(".game-intro").style.display = "none";
   document.getElementById("game-board").style.display = "flex";
+  document.getElementById("restart-button").style.display = "none";
   animate();
 };
 
@@ -138,3 +141,10 @@ document.addEventListener("keydown", (event) => {
     score++;
   }
 });
+document.getElementById("restart-button").style.display = "none";
+document.getElementById("restart-button").onclick = () => {
+  gameOver = false;
+  randomItems = [];
+  score = 0;
+  startGame();
+};

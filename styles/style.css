@@ -54,3 +54,14 @@ button:hover{
     background-color: #6e0315;
     cursor: pointer;
     }
+
+#game-board {
+    position: absolute;
+}
+#restart-button {
+    position: relative;
+    top: 75vh;
+    right: 50vw;
+    height: 7rem;
+    width: 20rem;
+}
