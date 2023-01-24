@@ -20,6 +20,9 @@ let babyY = 450;
 const hulkImg = new Image();
 hulkImg.src = "../images/hulk.png";
 
+const smashImg = new Image();
+smashImg.src = "../images/smash.png";
+
 let itemX = 400;
 let randomItems = [];
 let speed = 3;
@@ -48,11 +51,9 @@ const animate = () => {
   const drawHulk = () => {
     ctx.drawImage(hulkImg, 50, 100, 800, 800);
   };
-  //   if (gameOver) {
-  //     ctx.clearRect(0, 0, 400, 400);
-  //     babyImg.src = "../images/hulk.png";
-  //     ctx.drawImage(babyImg, 50, babyY, 400, 400);
-  //   }
+  const drawSmash = () => {
+    ctx.drawImage(smashImg, 600, -200, 800, 800);
+  };
 
   ctx.font = "48px serif";
   ctx.fillText(`Score: ${score}`, 10, 48);
@@ -95,6 +96,7 @@ const animate = () => {
     animateId = requestAnimationFrame(animate);
   } else {
     drawHulk();
+    drawSmash();
     cancelAnimationFrame(animateId);
   }
 };
@@ -121,10 +123,7 @@ document.addEventListener("keydown", (event) => {
     }, 500);
     score++;
   } else if (event.key === "ArrowLeft" && randomItems[0].type === "adult") {
-    randomItems[0].img = "../images/X-mark.png";
-    setTimeout(() => {
-      gameOver = true;
-    }, 500);
+    gameOver = true;
   }
   if (event.key === "ArrowRight" && randomItems[0].type === "baby") {
     randomItems[0].img = "../images/X-mark.png";
