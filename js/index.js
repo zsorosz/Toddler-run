@@ -17,9 +17,12 @@ const babyImg = new Image();
 babyImg.src = "../images/baby.png";
 let babyY = 450;
 
+const hulkImg = new Image();
+hulkImg.src = "../images/hulk.png";
+
 let itemX = 400;
 let randomItems = [];
-let speed = 4;
+let speed = 3;
 
 class Item {
   constructor(img, type, xPos) {
@@ -32,24 +35,34 @@ class Item {
     let itemImg = new Image();
     itemImg.src = this.img;
     this.xPos -= speed;
-    ctx.drawImage(itemImg, this.xPos, 400, 500, 500);
+    ctx.drawImage(itemImg, this.xPos, 400, 250, 250);
   }
 }
 
 const animate = () => {
   ctx.drawImage(bgImg1, bg1X, 0, canvas.width, canvas.height);
   ctx.drawImage(bgImg2, bg2X, 0, canvas.width, canvas.height);
-  ctx.drawImage(babyImg, 100, babyY, 400, 400);
+  const drawBaby = () => {
+    ctx.drawImage(babyImg, 50, babyY, 400, 400);
+  };
+  const drawHulk = () => {
+    ctx.drawImage(hulkImg, 50, 100, 800, 800);
+  };
+  //   if (gameOver) {
+  //     ctx.clearRect(0, 0, 400, 400);
+  //     babyImg.src = "../images/hulk.png";
+  //     ctx.drawImage(babyImg, 50, babyY, 400, 400);
+  //   }
 
   ctx.font = "48px serif";
   ctx.fillText(`Score: ${score}`, 10, 48);
 
   if (score <= 5) {
-    speed = 4;
+    speed = 3;
   } else if (score > 5 && score <= 10) {
-    speed = 7;
+    speed = 5;
   } else if (score > 10 && score <= 15) {
-    speed = 12;
+    speed = 10;
   }
 
   randomItems.forEach((item) => {
@@ -71,15 +84,17 @@ const animate = () => {
     bg2X = canvas.width;
   }
 
-  if (animateId % 50 === 0) {
+  if (animateId % 100 === 0) {
     let randomItem = items[Math.floor(Math.random() * items.length)];
     console.log(randomItem);
     randomItems.push(new Item(randomItem.img, randomItem.type, canvas.width));
   }
 
   if (!gameOver) {
+    drawBaby();
     animateId = requestAnimationFrame(animate);
   } else {
+    drawHulk();
     cancelAnimationFrame(animateId);
   }
 };
@@ -100,16 +115,27 @@ window.onload = () => {
 
 document.addEventListener("keydown", (event) => {
   if (event.key === "ArrowLeft" && randomItems[0].type === "baby") {
-    randomItems.shift();
+    randomItems[0].img = "../images/checkmark.png";
+    setTimeout(() => {
+      randomItems.shift();
+    }, 500);
     score++;
-    console.log("left");
   } else if (event.key === "ArrowLeft" && randomItems[0].type === "adult") {
-    gameOver = true;
+    randomItems[0].img = "../images/X-mark.png";
+    setTimeout(() => {
+      gameOver = true;
+    }, 500);
   }
   if (event.key === "ArrowRight" && randomItems[0].type === "baby") {
-    randomItems.shift();
+    randomItems[0].img = "../images/X-mark.png";
+    setTimeout(() => {
+      randomItems.shift();
+    }, 500);
   } else if (event.key === "ArrowRight" && randomItems[0].type === "adult") {
-    randomItems.shift();
+    randomItems[0].img = "../images/checkmark.png";
+    setTimeout(() => {
+      randomItems.shift();
+    }, 500);
     score++;
   }
 });
