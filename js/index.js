@@ -9,15 +9,15 @@ let score = 0;
 let lives = 3;
 
 const bgImg1 = new Image();
-bgImg1.src = "../images/room.png";
+bgImg1.src = "../images/room2.jpg";
 const bgImg2 = new Image();
-bgImg2.src = "../images/room.png";
+bgImg2.src = "../images/room2.jpg";
 let bg1X = 0;
-let bg2X = canvas.width;
+let bg2X = 2500;
 
 const babyImg = new Image();
 babyImg.src = "../images/baby.png";
-let babyY = 450;
+let babyY = 500;
 let babyWidth = 400;
 let babyHeight = 400;
 
@@ -43,13 +43,13 @@ class Item {
     let itemImg = new Image();
     itemImg.src = this.img;
     this.xPos -= speed;
-    ctx.drawImage(itemImg, this.xPos, 400, 250, 250);
+    ctx.drawImage(itemImg, this.xPos, 450, 280, 280);
   }
 }
 
 const animate = () => {
-  ctx.drawImage(bgImg1, bg1X, 0, canvas.width, canvas.height);
-  ctx.drawImage(bgImg2, bg2X, 0, canvas.width, canvas.height);
+  ctx.drawImage(bgImg1, bg1X, 0, 2500, canvas.height);
+  ctx.drawImage(bgImg2, bg2X, 0, 2500, canvas.height);
   const drawBaby = () => {
     ctx.drawImage(babyImg, 50, babyY, babyWidth, babyHeight);
   };
@@ -69,11 +69,11 @@ const animate = () => {
   bg1X -= speed;
   bg2X -= speed;
 
-  if (bg1X < -canvas.width) {
-    bg1X = canvas.width;
+  if (bg1X < -2500) {
+    bg1X = 2500;
   }
-  if (bg2X < -canvas.width) {
-    bg2X = canvas.width;
+  if (bg2X < -2500) {
+    bg2X = 2500;
   }
 
   if (score <= 5) {
