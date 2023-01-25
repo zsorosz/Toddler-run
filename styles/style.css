@@ -1,13 +1,14 @@
-
-  @import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
-  @import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
 
 
 body {
     background-color: beige;
     display: flex;
     margin: 0;
+
 }
+
 .game-intro {
     width: 100vw;
     height: 100vh;
@@ -20,12 +21,14 @@ body {
     justify-content: center;
     align-items: center;
 }
+
 .game-intro h1 {
     font-family: 'Luckiest Guy', cursive;
     color: #402b58;
     font-size: 7rem;
     margin-bottom: 0;
 }
+
 .game-intro p {
     width: 30%;
     background-color: white;
@@ -35,29 +38,34 @@ body {
     font-size: 1.5rem;
     font-weight: 600;
 }
+
 .game-intro img {
-    height: 30%;
+    background-color: rgba(255, 255, 255, 0.5);
+    margin: 2rem 0;
 }
+
 button {
-    padding:1rem 1.2rem;
+    padding: 1rem 1.2rem;
     font-size: 2rem;
-    border:none;
+    border: none;
     background-color: #c70828;
-    border-radius:2em;
-    text-decoration:none;
+    border-radius: 2em;
+    text-decoration: none;
     font-family: 'Indie Flower', cursive;
-    font-weight:300;
-    color:#FFFFFF;
-    text-align:center;
+    font-weight: 300;
+    color: #FFFFFF;
+    text-align: center;
 }
-button:hover{
+
+button:hover {
     background-color: #6e0315;
     cursor: pointer;
-    }
+}
 
 #game-board {
     position: absolute;
 }
+
 #restart-button {
     position: relative;
     top: 75vh;
@@ -65,6 +73,7 @@ button:hover{
     height: 7rem;
     width: 20rem;
 }
+
 #counter {
     position: relative;
     top: 20vh;

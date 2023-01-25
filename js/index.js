@@ -2,9 +2,11 @@ const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 ctx.canvas.style = "border: 1px solid black";
 
-let gameOver = false;
+let gameOver;
+let gameInProg = false;
 let animateId;
 let score = 0;
+let lives = 3;
 
 const bgImg1 = new Image();
 bgImg1.src = "../images/room.png";
@@ -16,6 +18,8 @@ let bg2X = canvas.width;
 const babyImg = new Image();
 babyImg.src = "../images/baby.png";
 let babyY = 450;
+let babyWidth = 400;
+let babyHeight = 400;
 
 const hulkImg = new Image();
 hulkImg.src = "../images/hulk.png";
@@ -47,7 +51,7 @@ const animate = () => {
   ctx.drawImage(bgImg1, bg1X, 0, canvas.width, canvas.height);
   ctx.drawImage(bgImg2, bg2X, 0, canvas.width, canvas.height);
   const drawBaby = () => {
-    ctx.drawImage(babyImg, 50, babyY, 400, 400);
+    ctx.drawImage(babyImg, 50, babyY, babyWidth, babyHeight);
   };
   const drawHulk = () => {
     ctx.drawImage(hulkImg, 50, 100, 800, 800);
@@ -59,27 +63,9 @@ const animate = () => {
   ctx.font = "48px Luckiest Guy";
   ctx.fillStyle = "rgb(255, 0, 0)";
   ctx.fillText(`Score: ${score}`, 40, 70);
+  ctx.fillText(`Lives: ${lives}`, canvas.width - 200, 70);
 
-  if (score <= 5) {
-    speed = 4;
-    frequency = 80;
-  } else if (score > 5 && score <= 10) {
-    speed = 5;
-    frequency = 60;
-  } else if (score > 10 && score <= 15) {
-    speed = 6;
-    frequency = 40;
-  }
-
-  randomItems.forEach((item) => {
-    item.draw(item);
-    if (item.xPos < 200 && item.type === "baby") {
-      randomItems.shift();
-    } else if (item.xPos < 200 && item.type === "adult") {
-      gameOver = true;
-    }
-  });
-
+  //////////////Background animation/////////////
   bg1X -= speed;
   bg2X -= speed;
 
@@ -90,27 +76,71 @@ const animate = () => {
     bg2X = canvas.width;
   }
 
+  if (score <= 5) {
+    speed = 4;
+    frequency = 80;
+  } else if (score > 5 && score <= 15) {
+    speed = 5;
+    frequency = 60;
+  } else if (score > 15 && score <= 25) {
+    speed = 6;
+    frequency = 40;
+  } else if (score > 25 && score <= 40) {
+    speed = 7;
+    frequency = 30;
+  } else if (score > 40) {
+    speed = 10;
+    frequency = 20;
+  }
+
+  ////////////////////Create items////////////////////
   if (animateId % frequency === 0) {
     let randomItem = items[Math.floor(Math.random() * items.length)];
-    console.log(randomItem);
     randomItems.push(new Item(randomItem.img, randomItem.type, canvas.width));
   }
 
+  randomItems.forEach((item) => {
+    item.draw(item);
+    if (item.xPos < 200 && item.type === "baby") {
+      randomItems.shift();
+    } else if (item.xPos < 200 && item.type === "adult") {
+      randomItems.length = 1;
+      item.xPos = 900;
+      item.draw(item);
+      gameOver = true;
+    }
+  });
+
+  ////////////////Game states///////////////////
+  if (lives < 1) {
+    gameOver = true;
+  }
   if (!gameOver) {
     drawBaby();
     animateId = requestAnimationFrame(animate);
   } else {
+    gameInProg = false;
     drawHulk();
     drawSmash();
-    document.getElementById("restart-button").style.display = "block";
     cancelAnimationFrame(animateId);
+    document.getElementById("restart-button").style.display = "block";
   }
 };
 
+////////////////Start the game///////////////
 const startGame = () => {
   document.querySelector(".game-intro").style.display = "none";
   document.getElementById("game-board").style.display = "flex";
   document.getElementById("restart-button").style.display = "none";
+
+  gameInProg = true;
+  gameOver = false;
+  randomItems = [];
+  score = 0;
+  speed = 4;
+  frequency = 100;
+  lives = 3;
+
   const counter = document.getElementById("counter");
   let count = 3;
   const interval = setInterval(() => {
@@ -121,32 +151,43 @@ const startGame = () => {
       clearInterval(interval);
     }
   }, 1000);
+
   animate();
 };
 
+////////////Start event listeners////////////
 window.onload = () => {
-  //   document.getElementById("game-board").style.display = "none";
-  //   document.getElementById("start-button").onclick = () => {
-  //     startGame();
-  //   };
-  startGame();
+  document.getElementById("game-board").style.display = "none";
+  document.getElementById("start-button").onclick = () => {
+    startGame();
+  };
+  window.addEventListener("keypress", (e) => {
+    if (gameInProg) {
+      return;
+    } else if (e.key === "Enter") {
+      startGame();
+    }
+  });
 };
-
+//////////////////Controls///////////////
 document.addEventListener("keydown", (event) => {
   if (event.key === "ArrowLeft" && randomItems[0].type === "baby") {
     randomItems[0].img = "../images/checkmark.png";
     setTimeout(() => {
       randomItems.shift();
-    }, 500);
+    }, 200);
     score++;
   } else if (event.key === "ArrowLeft" && randomItems[0].type === "adult") {
+    randomItems.length = 1;
+    randomItems[0].xPos = 900;
     gameOver = true;
   }
   if (event.key === "ArrowRight" && randomItems[0].type === "baby") {
     randomItems[0].img = "../images/X-mark.png";
+    lives--;
     setTimeout(() => {
       randomItems.shift();
-    }, 500);
+    }, 200);
   } else if (event.key === "ArrowRight" && randomItems[0].type === "adult") {
     randomItems[0].img = "../images/checkmark.png";
     setTimeout(() => {
@@ -155,10 +196,8 @@ document.addEventListener("keydown", (event) => {
     score++;
   }
 });
+//////////////Restart the game///////////////
 document.getElementById("restart-button").style.display = "none";
 document.getElementById("restart-button").onclick = () => {
-  gameOver = false;
-  randomItems = [];
-  score = 0;
   startGame();
 };
