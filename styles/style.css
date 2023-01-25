@@ -6,7 +6,6 @@ body {
     background-color: beige;
     display: flex;
     margin: 0;
-
 }
 
 .game-intro {
@@ -29,19 +28,10 @@ body {
     margin-bottom: 0;
 }
 
-.game-intro p {
-    width: 30%;
-    background-color: white;
-    padding: 1rem;
-    text-align: center;
-    font-family: 'Indie Flower', cursive;
-    font-size: 1.5rem;
-    font-weight: 600;
-}
-
 .game-intro img {
     background-color: rgba(255, 255, 255, 0.5);
     margin: 2rem 0;
+    height: 50%;
 }
 
 button {
@@ -62,24 +52,37 @@ button:hover {
     cursor: pointer;
 }
 
+#start-button {
+    margin-bottom: 2rem;
+}
+
 #game-board {
-    position: absolute;
+    position: relative;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+canvas {
+    
 }
 
 #restart-button {
-    position: relative;
-    top: 75vh;
-    right: 50vw;
-    height: 7rem;
+    position: absolute;
+    top: 450px;
+    right: 20vw;
+    height: 6rem;
     width: 20rem;
 }
 
 #counter {
-    position: relative;
-    top: 20vh;
-    right: 50vw;
+    position: absolute;
+    top: 50px;
+    right: 45vw;
     font-size: 20rem;
-    margin-top: 0;
+    margin: 0;
     font-family: 'Luckiest Guy', cursive;
     color: #3b020c;
 }

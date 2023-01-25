@@ -2,30 +2,44 @@ const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 ctx.canvas.style = "border: 1px solid black";
 
+///////////Game States///////////
 let gameOver;
 let gameInProg = false;
 let animateId;
 let score = 0;
 let lives = 3;
 
+//////////////Backgrounds////////////
 const bgImg1 = new Image();
 bgImg1.src = "../images/room2.jpg";
 const bgImg2 = new Image();
 bgImg2.src = "../images/room2.jpg";
 let bg1X = 0;
-let bg2X = 2500;
+let bg2X = 1500;
 
+//////////////Character//////////////
 const babyImg = new Image();
 babyImg.src = "../images/baby.png";
-let babyY = 500;
-let babyWidth = 400;
-let babyHeight = 400;
+let babyY = 250;
+let babyWidth = 350;
+let babyHeight = 350;
 
+///////////////Game over images//////////////
 const hulkImg = new Image();
 hulkImg.src = "../images/hulk.png";
 
 const smashImg = new Image();
 smashImg.src = "../images/smash.png";
+
+//////////////Sound////////////
+let audio = new Audio("../audio/iron-man-01.mp3");
+audio.volume = 0.1;
+let inputCorrect = new Audio("../audio/button-09a.mp3");
+inputCorrect.volume = 0.2;
+let inputWrong = new Audio("../audio/button-10.mp3");
+inputWrong.volume = 0.2;
+
+//////////////Items//////////////
 
 let itemX = 400;
 let randomItems = [];
@@ -43,21 +57,23 @@ class Item {
     let itemImg = new Image();
     itemImg.src = this.img;
     this.xPos -= speed;
-    ctx.drawImage(itemImg, this.xPos, 450, 280, 280);
+    ctx.drawImage(itemImg, this.xPos, 250, 250, 250);
   }
 }
 
+//////////////FUNCTIONS//////////////////
+
 const animate = () => {
-  ctx.drawImage(bgImg1, bg1X, 0, 2500, canvas.height);
-  ctx.drawImage(bgImg2, bg2X, 0, 2500, canvas.height);
+  ctx.drawImage(bgImg1, bg1X, 0, 1500, canvas.height);
+  ctx.drawImage(bgImg2, bg2X, 0, 1500, canvas.height);
   const drawBaby = () => {
-    ctx.drawImage(babyImg, 50, babyY, babyWidth, babyHeight);
+    ctx.drawImage(babyImg, 0, babyY, babyWidth, babyHeight);
   };
   const drawHulk = () => {
-    ctx.drawImage(hulkImg, 50, 100, 800, 800);
+    ctx.drawImage(hulkImg, 50, 100, 500, 500);
   };
   const drawSmash = () => {
-    ctx.drawImage(smashImg, 600, -200, 800, 800);
+    ctx.drawImage(smashImg, 400, -100, 500, 500);
   };
 
   ctx.font = "48px Luckiest Guy";
@@ -69,11 +85,11 @@ const animate = () => {
   bg1X -= speed;
   bg2X -= speed;
 
-  if (bg1X < -2500) {
-    bg1X = 2500;
+  if (bg1X < -1500) {
+    bg1X = 1500;
   }
-  if (bg2X < -2500) {
-    bg2X = 2500;
+  if (bg2X < -1500) {
+    bg2X = 1500;
   }
 
   if (score <= 5) {
@@ -101,11 +117,11 @@ const animate = () => {
 
   randomItems.forEach((item) => {
     item.draw(item);
-    if (item.xPos < 200 && item.type === "baby") {
+    if (item.xPos < 150 && item.type === "baby") {
       randomItems.shift();
-    } else if (item.xPos < 200 && item.type === "adult") {
+    } else if (item.xPos < 150 && item.type === "adult") {
       randomItems.length = 1;
-      item.xPos = 900;
+      item.xPos = 500;
       item.draw(item);
       gameOver = true;
     }
@@ -129,6 +145,7 @@ const animate = () => {
 
 ////////////////Start the game///////////////
 const startGame = () => {
+  // audio.play();
   document.querySelector(".game-intro").style.display = "none";
   document.getElementById("game-board").style.display = "flex";
   document.getElementById("restart-button").style.display = "none";
@@ -154,7 +171,15 @@ const startGame = () => {
 
   animate();
 };
-
+////////////Input functions////////////////
+const correctPress = () => {
+  inputCorrect.play();
+  randomItems[0].img = "../images/checkmark.png";
+  setTimeout(() => {
+    randomItems.shift();
+  }, 200);
+  score++;
+};
 ////////////Start event listeners////////////
 window.onload = () => {
   document.getElementById("game-board").style.display = "none";
@@ -169,31 +194,25 @@ window.onload = () => {
     }
   });
 };
-//////////////////Controls///////////////
+//////////////////Control event listeners///////////////
 document.addEventListener("keydown", (event) => {
   if (event.key === "ArrowLeft" && randomItems[0].type === "baby") {
-    randomItems[0].img = "../images/checkmark.png";
-    setTimeout(() => {
-      randomItems.shift();
-    }, 200);
-    score++;
+    correctPress();
   } else if (event.key === "ArrowLeft" && randomItems[0].type === "adult") {
+    inputWrong.play();
     randomItems.length = 1;
-    randomItems[0].xPos = 900;
+    randomItems[0].xPos = 500;
     gameOver = true;
   }
   if (event.key === "ArrowRight" && randomItems[0].type === "baby") {
+    inputWrong.play();
     randomItems[0].img = "../images/X-mark.png";
     lives--;
     setTimeout(() => {
       randomItems.shift();
     }, 200);
   } else if (event.key === "ArrowRight" && randomItems[0].type === "adult") {
-    randomItems[0].img = "../images/checkmark.png";
-    setTimeout(() => {
-      randomItems.shift();
-    }, 200);
-    score++;
+    correctPress();
   }
 });
 //////////////Restart the game///////////////
