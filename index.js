@@ -11,32 +11,32 @@ let lives = 3;
 
 //////////////Backgrounds////////////
 const bgImg1 = new Image();
-bgImg1.src = "/images/room2.jpg";
+bgImg1.src = "./images/room2.jpg";
 const bgImg2 = new Image();
-bgImg2.src = "/images/room2.jpg";
+bgImg2.src = "./images/room2.jpg";
 let bg1X = 0;
 let bg2X = 1500;
 
 //////////////Character//////////////
 const babyImg = new Image();
-babyImg.src = "/images/baby.png";
+babyImg.src = "./images/baby.png";
 let babyY = 250;
 let babyWidth = 350;
 let babyHeight = 350;
 
 ///////////////Game over images//////////////
 const hulkImg = new Image();
-hulkImg.src = "/images/hulk.png";
+hulkImg.src = "./images/hulk.png";
 
 const smashImg = new Image();
-smashImg.src = "/images/smash.png";
+smashImg.src = "./images/smash.png";
 
 //////////////Sound////////////
-let audio = new Audio("/audio/iron-man-01.mp3");
+let audio = new Audio("./audio/iron-man-01.mp3");
 audio.volume = 0.1;
-let inputCorrect = new Audio("/audio/button-09a.mp3");
+let inputCorrect = new Audio("./audio/button-09a.mp3");
 inputCorrect.volume = 0.2;
-let inputWrong = new Audio("/audio/button-10.mp3");
+let inputWrong = new Audio("./audio/button-10.mp3");
 inputWrong.volume = 0.2;
 
 //////////////Items//////////////
@@ -174,7 +174,7 @@ const startGame = () => {
 ////////////Input functions////////////////
 const correctPress = () => {
   inputCorrect.play();
-  randomItems[0].img = "/images/checkmark.png";
+  randomItems[0].img = "./images/checkmark.png";
   setTimeout(() => {
     randomItems.shift();
   }, 200);
@@ -206,7 +206,7 @@ document.addEventListener("keydown", (event) => {
   }
   if (event.key === "ArrowRight" && randomItems[0].type === "baby") {
     inputWrong.play();
-    randomItems[0].img = "/images/X-mark.png";
+    randomItems[0].img = "./images/X-mark.png";
     lives--;
     setTimeout(() => {
       randomItems.shift();
