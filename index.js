@@ -3,28 +3,34 @@ const ctx = canvas.getContext("2d");
 ctx.canvas.style = "border: 1px solid black";
 
 ///////////Game States///////////
-let gameOver;
+
 let gameInProg = false;
 let animateId;
 let score = 0;
 let lives = 3;
 
 //////////////Backgrounds////////////
+
 const bgImg1 = new Image();
 bgImg1.src = "./images/room2.jpg";
+
 const bgImg2 = new Image();
 bgImg2.src = "./images/room2.jpg";
+
 let bg1X = 0;
 let bg2X = 1500;
 
 //////////////Character//////////////
+
 const babyImg = new Image();
 babyImg.src = "./images/baby.png";
+
 let babyY = 250;
 let babyWidth = 350;
 let babyHeight = 350;
 
 ///////////////Game over images//////////////
+
 const hulkImg = new Image();
 hulkImg.src = "./images/hulk.png";
 
@@ -32,12 +38,16 @@ const smashImg = new Image();
 smashImg.src = "./images/smash.png";
 
 //////////////Sound////////////
+
 let audio = new Audio("./audio/iron-man-01.mp3");
-audio.volume = 0.1;
+audio.volume = 0.3;
+
 let crash = new Audio("./audio/crash-6711.mp3");
 audio.volume = 0.1;
+
 let inputCorrect = new Audio("./audio/button-09a.mp3");
 inputCorrect.volume = 0.2;
+
 let inputWrong = new Audio("./audio/button-10.mp3");
 inputWrong.volume = 0.2;
 
@@ -83,7 +93,8 @@ const animate = () => {
   ctx.fillText(`Score: ${score}`, 40, 70);
   ctx.fillText(`Lives: ${lives}`, canvas.width - 200, 70);
 
-  //////////////Background animation/////////////
+  //////////////Animation/////////////////
+
   bg1X -= speed;
   bg2X -= speed;
 
@@ -112,10 +123,11 @@ const animate = () => {
   }
 
   ////////////////////Create items////////////////////
+
   if (animateId % frequency === 0) {
     let randomItem = items[Math.floor(Math.random() * items.length)];
     randomItems.push(
-      new Item(randomItem.img, randomItem.type, canvas.width + 800)
+      new Item(randomItem.img, randomItem.type, canvas.width + 700)
     );
   }
 
@@ -124,21 +136,15 @@ const animate = () => {
     if (item.xPos < 150 && item.type === "baby") {
       randomItems.shift();
     } else if (item.xPos < 150 && item.type === "adult") {
-      randomItems.length = 1;
-      item.xPos = 500;
-      item.draw(item);
-      gameOver = true;
+      lives--;
+      inputWrong.play();
+      randomItems.shift();
     }
   });
 
-  ////////////////Game states///////////////////
-  if (lives < 1) {
-    gameOver = true;
-  }
-  if (!gameOver) {
-    drawBaby();
-    animateId = requestAnimationFrame(animate);
-  } else {
+  ////////////////Game over///////////////////
+
+  const gameOverFun = () => {
     gameInProg = false;
     drawHulk();
     drawSmash();
@@ -146,6 +152,13 @@ const animate = () => {
     cancelAnimationFrame(animateId);
     document.getElementById("restart-button").style.display = "block";
     audio.pause();
+  };
+
+  if (lives > 0) {
+    drawBaby();
+    animateId = requestAnimationFrame(animate);
+  } else {
+    gameOverFun();
   }
 };
 
@@ -177,7 +190,9 @@ const startGame = () => {
   audio.play();
   animate();
 };
+
 ////////////Input functions////////////////
+
 const correctPress = () => {
   inputCorrect.play();
   randomItems[0].img = "./images/checkmark.png";
@@ -186,7 +201,22 @@ const correctPress = () => {
   }, 200);
   score++;
 };
-////////////Start event listeners////////////
+const wrongPress = () => {
+  inputWrong.play();
+  lives--;
+  if (lives === 0) {
+    randomItems.length = 1;
+    randomItems[0].xPos = 500;
+    gameOverFun();
+  } else {
+    randomItems[0].img = "./images/X-mark.png";
+    setTimeout(() => {
+      randomItems.shift();
+    }, 200);
+  }
+};
+//////////////////Start event listeners////////////
+
 window.onload = () => {
   document.getElementById("game-board").style.display = "none";
   document.getElementById("start-button").onclick = () => {
@@ -200,29 +230,25 @@ window.onload = () => {
     }
   });
 };
-//////////////////Control event listeners///////////////
-document.addEventListener("keydown", (event) => {
-  if (event.key === "ArrowLeft" && randomItems[0].type === "baby") {
-    correctPress();
-  } else if (event.key === "ArrowLeft" && randomItems[0].type === "adult") {
-    inputWrong.play();
-    randomItems.length = 1;
-    randomItems[0].xPos = 500;
-    gameOver = true;
-  }
-  if (event.key === "ArrowRight" && randomItems[0].type === "baby") {
-    inputWrong.play();
-    randomItems[0].img = "./images/X-mark.png";
-    lives--;
-    setTimeout(() => {
-      randomItems.shift();
-    }, 200);
-  } else if (event.key === "ArrowRight" && randomItems[0].type === "adult") {
-    correctPress();
-  }
-});
-//////////////Restart the game///////////////
+
+//////////////////Restart the game///////////////////////
+
 document.getElementById("restart-button").style.display = "none";
 document.getElementById("restart-button").onclick = () => {
   startGame();
 };
+
+//////////////////Control event listeners///////////////
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "ArrowLeft" && randomItems[0].type === "baby") {
+    correctPress();
+  } else if (event.key === "ArrowLeft" && randomItems[0].type === "adult") {
+    wrongPress();
+  }
+  if (event.key === "ArrowRight" && randomItems[0].type === "baby") {
+    wrongPress();
+  } else if (event.key === "ArrowRight" && randomItems[0].type === "adult") {
+    correctPress();
+  }
+});

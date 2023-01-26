@@ -14,8 +14,8 @@ In this game your toddler is walking towards random objects in the flat. Some of
 - left arrow key removes the baby-safe object, right arrow key deletes the forbidden object
 - every correct keypress increases the score by 1
 - the speed increases when a certain score is reached
-- when the baby reaches a forbidden object, or the wrong key was pressed, the game is over
-- if a safe object is taken away from the baby, a life is lost
+- when the baby reaches a forbidden object, or the wrong key was pressed, the player loses a live
+- when no more lives left, the game is over
 
 ## Backlog
 
@@ -25,14 +25,11 @@ In this game your toddler is walking towards random objects in the flat. Some of
 ## Data structure
 
 index.html
-js
-
-- index.js
-- items.js
-  styles
-- style.css
-  images
-  audio
+index.js
+items.js
+style.css
+images
+audio
 
 ## States y States Transitions
 
