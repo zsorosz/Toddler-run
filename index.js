@@ -34,6 +34,8 @@ smashImg.src = "./images/smash.png";
 //////////////Sound////////////
 let audio = new Audio("./audio/iron-man-01.mp3");
 audio.volume = 0.1;
+let crash = new Audio("./audio/crash-6711.mp3");
+audio.volume = 0.2;
 let inputCorrect = new Audio("./audio/button-09a.mp3");
 inputCorrect.volume = 0.2;
 let inputWrong = new Audio("./audio/button-10.mp3");
@@ -138,14 +140,15 @@ const animate = () => {
     gameInProg = false;
     drawHulk();
     drawSmash();
+    crash.play();
     cancelAnimationFrame(animateId);
     document.getElementById("restart-button").style.display = "block";
+    audio.pause();
   }
 };
 
 ////////////////Start the game///////////////
 const startGame = () => {
-  // audio.play();
   document.querySelector(".game-intro").style.display = "none";
   document.getElementById("game-board").style.display = "flex";
   document.getElementById("restart-button").style.display = "none";
@@ -168,7 +171,8 @@ const startGame = () => {
       clearInterval(interval);
     }
   }, 1000);
-
+  audio.load();
+  audio.play();
   animate();
 };
 ////////////Input functions////////////////

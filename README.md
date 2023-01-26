@@ -1,6 +1,6 @@
 # Toddler Run
 
-[Click here to see deployed game](http://github.com)
+[Click here to see deployed game](https://zsorosz.github.io/toddler-run/)
 
 ## Description
 
