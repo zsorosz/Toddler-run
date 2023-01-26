@@ -63,15 +63,12 @@ button:hover {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-}
-
-canvas {
-    
+    height: 100vh;
 }
 
 #restart-button {
     position: absolute;
-    top: 450px;
+    top: 65vh;
     right: 20vw;
     height: 6rem;
     width: 20rem;
@@ -79,7 +76,7 @@ canvas {
 
 #counter {
     position: absolute;
-    top: 50px;
+    top: 30vh;
     right: 45vw;
     font-size: 20rem;
     margin: 0;
