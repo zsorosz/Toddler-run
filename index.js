@@ -59,7 +59,7 @@ class Item {
     let itemImg = new Image();
     itemImg.src = this.img;
     this.xPos -= speed;
-    ctx.drawImage(itemImg, this.xPos, 250, 250, 250);
+    ctx.drawImage(itemImg, this.xPos, 250, 240, 240);
   }
 }
 
@@ -114,7 +114,9 @@ const animate = () => {
   ////////////////////Create items////////////////////
   if (animateId % frequency === 0) {
     let randomItem = items[Math.floor(Math.random() * items.length)];
-    randomItems.push(new Item(randomItem.img, randomItem.type, canvas.width));
+    randomItems.push(
+      new Item(randomItem.img, randomItem.type, canvas.width + 800)
+    );
   }
 
   randomItems.forEach((item) => {

@@ -20,6 +20,18 @@ const items = [
     type: "baby",
   },
   {
+    img: "./images/baby-item7.png",
+    type: "baby",
+  },
+  {
+    img: "./images/baby-item8.png",
+    type: "baby",
+  },
+  {
+    img: "./images/baby-item9.png",
+    type: "baby",
+  },
+  {
     img: "./images/adult-item1.png",
     type: "adult",
   },
@@ -37,6 +49,14 @@ const items = [
   },
   {
     img: "./images/adult-item5.png",
+    type: "adult",
+  },
+  {
+    img: "./images/adult-item6.png",
+    type: "adult",
+  },
+  {
+    img: "./images/adult-item7.png",
     type: "adult",
   },
 ];
